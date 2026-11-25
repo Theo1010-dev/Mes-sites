@@ -8,5 +8,6 @@ Hub (lien de la bio Instagram) qui présente les applis de Théo. Répondre en f
 - Les cartes ouvrent l'appli dans un nouvel onglet (`target="_blank"`) : le hub reste ouvert, et le lien Insta ramène toujours au hub.
 - Ne JAMAIS mettre de domaine perso sur un dépôt `Theo1010-dev.github.io` : toutes les applis changeraient d'adresse et perdraient leurs données.
 - Un seul fichier `index.html` (CSS dans la page), polices dans `fonts/` (OFL), icônes 192 px dans `icons/`, `og.png` = aperçu quand on partage le lien.
+- Quand une image change (icône, og.png), augmenter le `?v=` dans index.html : sinon les téléphones gardent l'ancienne en cache.
 - Ajouter une appli : un `<li><a class="card …">` + une classe de couleurs (--bg, --ink, --muted, --ring, --tag-bg, --tag-ink, --btn, --on-btn) + son icône.
 - Vérifier à 320 et 390 px (aucun débordement), puis pousser sur `main`.
