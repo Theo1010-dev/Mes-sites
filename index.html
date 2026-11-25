@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mes sites</title>
+<meta name="description" content="Mes applis faites maison : PotoStick, Mon Frigo, Mon Budget et Ma stratégie. Gratuites, sans pub, sur Android et iPhone.">
+<meta name="theme-color" content="#170306">
+<meta property="og:title" content="Mes sites">
+<meta property="og:description" content="Mes applis faites maison. Gratuites, sans pub, sur Android et iPhone.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://theo1010-dev.github.io/Mes-sites/">
+<meta property="og:image" content="https://theo1010-dev.github.io/Mes-sites/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<!-- Pas de service worker ni de stockage ici : ce site partage le domaine theo1010-dev.github.io avec les applis, il ne doit jamais y toucher. -->
+<style>
+@font-face { font-family: "Bricolage"; src: url("fonts/bricolage.woff2") format("woff2"); font-weight: 200 800; font-display: swap; }
+@font-face { font-family: "Instrument"; src: url("fonts/instrument-sans.woff2") format("woff2"); font-weight: 400 700; font-display: swap; }
+@font-face { font-family: "Fraunces"; src: url("fonts/fraunces.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+:root {
+  --wine: #3b0a12; --wine-deep: #170306; --paper: #fff4f2; --paper-2: #e7c3c7;
+  --display: "Bricolage", "Trebuchet MS", system-ui, sans-serif; --text: "Instrument", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; min-height: 100vh; overflow-x: hidden; font-family: var(--text); font-size: 16px; line-height: 1.5; color: var(--paper);
+  background: radial-gradient(130% 60% at 50% 0%, #74121d 0%, var(--wine) 50%, var(--wine-deep) 100%) fixed, var(--wine-deep);
+}
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+
+/* le bandeau du croquis */
+.strip { background: rgba(10, 1, 3, .55); padding: calc(22px + env(safe-area-inset-top)) 16px 20px; text-align: center; }
+.strip h1 { margin: 0; font-family: var(--display); font-weight: 800; font-size: clamp(40px, 12vw, 56px); letter-spacing: -.035em; line-height: 1; }
+.strip p { margin: 10px auto 0; max-width: 30ch; color: var(--paper-2); font-size: 16px; text-wrap: balance; }
+
+main { max-width: 480px; margin: 0 auto; padding: 34px 18px calc(40px + env(safe-area-inset-bottom)); }
+
+/* le hub : une carte par appli, posée un peu de travers comme sur le dessin ; l'icône dépasse comme un autocollant */
+.hub { list-style: none; margin: 0; padding: 0; display: grid; gap: 30px; }
+.card { --tilt: -1.2deg; position: relative; display: block; padding: 20px 20px 18px 108px; min-height: 132px; border-radius: 24px; background: var(--bg); color: var(--ink);
+  transform: rotate(var(--tilt)); box-shadow: 0 18px 34px -18px rgba(0, 0, 0, .8), inset 0 0 0 1px rgba(255, 255, 255, .08);
+  transition: transform .18s cubic-bezier(.3, 1.4, .5, 1); animation: deal .55s calc(var(--n) * 90ms + 120ms) cubic-bezier(.2, 1.2, .4, 1) backwards; }
+.hub li:nth-child(1) .card { --n: 0; }
+.hub li:nth-child(2) .card { --n: 1; --tilt: 1deg; }
+.hub li:nth-child(3) .card { --n: 2; --tilt: -.7deg; }
+.hub li:nth-child(4) .card { --n: 3; --tilt: 1.3deg; }
+.card:active { transform: rotate(0deg) scale(.97); }
+@media (hover: hover) { .card:hover { transform: rotate(0deg) translateY(-3px); } }
+@keyframes deal { from { opacity: 0; transform: translateY(46px) rotate(calc(var(--tilt) * 6)); } }
+
+.card img { position: absolute; left: -8px; top: -14px; width: 100px; height: 100px; border-radius: 26px; transform: rotate(-7deg);
+  box-shadow: 0 10px 18px -6px rgba(0, 0, 0, .45), 0 0 0 3px var(--ring); }
+.hub li:nth-child(even) .card img { transform: rotate(6deg); }
+.tag { display: inline-block; margin-bottom: 6px; padding: 2px 10px; border-radius: 99px; background: var(--tag-bg); color: var(--tag-ink); font-size: 13px; font-weight: 700; }
+.card h2 { margin: 0; font-family: var(--name-font, var(--display)); font-weight: 750; font-size: 27px; letter-spacing: -.02em; line-height: 1.05; }
+.card p { margin: 6px 0 0; font-size: 15.5px; line-height: 1.4; color: var(--muted); }
+.go { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 9px 16px; border-radius: 99px; background: var(--btn); color: var(--on-btn); font-weight: 700; font-size: 15px; }
+.go svg { width: 16px; height: 16px; }
+
+/* chaque carte prend les couleurs de son appli */
+.poto { --bg: linear-gradient(150deg, #ffd27a 0%, #f2a93b 55%, #d9861c 100%); --ink: #3c1c08; --muted: #5f3414; --ring: #3c1c08; --tag-bg: #3c1c08; --tag-ink: #ffd27a; --btn: #3c1c08; --on-btn: #ffe2a6; --name-font: "Fraunces", Georgia, serif; }
+.frigo { --bg: linear-gradient(150deg, #ff4fa5 0%, #e2017b 60%, #b80064 100%); --ink: #fff; --muted: #ffe0ef; --ring: #fff; --tag-bg: #fff; --tag-ink: #c4006b; --btn: #fff; --on-btn: #c4006b; }
+.budget { --bg: linear-gradient(150deg, #5aa9ff 0%, #007aff 60%, #0058d6 100%); --ink: #fff; --muted: #dcebff; --ring: #fff; --tag-bg: #fff; --tag-ink: #0058d6; --btn: #fff; --on-btn: #0058d6; }
+.strat { --bg: linear-gradient(150deg, #2c5a4d 0%, #14302a 70%); --ink: #f6f9f7; --muted: #b9d1c8; --ring: #8fd1b6; --tag-bg: #8fd1b6; --tag-ink: #14302a; --btn: #e8eeeb; --on-btn: #14302a; }
+
+/* installer sur le téléphone */
+.install { margin-top: 42px; border-radius: 20px; background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .13); }
+.install summary { cursor: pointer; list-style: none; padding: 16px 18px; font-family: var(--display); font-weight: 650; font-size: 17px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.install summary::-webkit-details-marker { display: none; }
+.install summary::after { content: "+"; font-size: 26px; line-height: 1; flex: none; }
+.install[open] summary::after { content: "–"; }
+.install .body { padding: 0 18px 16px; color: var(--paper-2); font-size: 15px; }
+.install h3 { margin: 6px 0 2px; color: var(--paper); font-size: 15px; }
+.install p { margin: 0 0 8px; }
+.install b { color: var(--paper); }
+footer { margin-top: 28px; text-align: center; color: var(--paper-2); font-size: 14px; }
+
+@media (prefers-reduced-motion: reduce) { .card { animation: none; transition: none; } }
+@media (max-width: 350px) { .card { padding-left: 92px; } .card img { width: 86px; height: 86px; border-radius: 22px; } .card h2 { font-size: 24px; } }
+</style>
+</head>
+<body>
+<header class="strip">
+  <h1>Mes sites</h1>
+  <p>Mes applis faites maison. Gratuites, sans pub, sur Android et iPhone.</p>
+</header>
+<main>
+  <ul class="hub">
+    <li><a class="card poto" href="https://potostick.firebaseapp.com/">
+      <img src="icons/potostick.png" alt="" width="100" height="100">
+      <span class="tag">Jeu</span>
+      <h2>PotoStick</h2>
+      <p>Parie avec tes potes, sans un centime. La taverne compte les points.</p>
+      <span class="go">Jouer <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></span>
+    </a></li>
+    <li><a class="card frigo" href="https://theo1010-dev.github.io/Mon-Frigo/">
+      <img src="icons/mon-frigo.png" alt="" width="100" height="100">
+      <span class="tag">Cuisine</span>
+      <h2>Mon Frigo</h2>
+      <p>Dis ce que tu as, il te dit quoi cuisiner. Plus de 1&nbsp;000 recettes, zéro gaspi.</p>
+      <span class="go">Essayer <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></span>
+    </a></li>
+    <li><a class="card budget" href="https://theo1010-dev.github.io/Mon-Budget/">
+      <img src="icons/mon-budget.png" alt="" width="100" height="100">
+      <span class="tag">Argent</span>
+      <h2>Mon Budget</h2>
+      <p>Sache en un coup d’œil ce qu’il te reste à dépenser jusqu’à la prochaine paie.</p>
+      <span class="go">Essayer <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></span>
+    </a></li>
+    <li><a class="card strat" href="https://theo1010-dev.github.io/Ma-Strategie/">
+      <img src="icons/ma-strategie.png" alt="" width="100" height="100">
+      <span class="tag">Bourse</span>
+      <h2>Ma stratégie</h2>
+      <p>Ton plan PEA mois après mois : quoi acheter, quand, et pourquoi.</p>
+      <span class="go">Essayer <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></span>
+    </a></li>
+  </ul>
+
+  <details class="install">
+    <summary>Comment l’ajouter à ton écran d’accueil</summary>
+    <div class="body">
+      <p>Ouvre l’appli, puis :</p>
+      <h3>Android</h3>
+      <p>Dans Chrome, menu <b>⋮</b> puis <b>Installer l’application</b>.</p>
+      <h3>iPhone</h3>
+      <p>Dans Safari, touche <b>⋯</b> à droite de l’adresse (ou le bouton Partager), puis <b>Partager</b> et <b>Sur l’écran d’accueil</b>. Laisse « Ouvrir comme app web » activé et touche <b>Ajouter</b>.</p>
+    </div>
+  </details>
+  <footer>Créées par Théo</footer>
+</main>
+</body>
+</html>
